@@ -19,11 +19,11 @@ const FeedbackSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const ContactForm = ({ handleSubmit }) => {
+const ContactForm = ({ handleAdd }) => {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={handleSubmit}
+      onSubmit={handleAdd}
       validationSchema={FeedbackSchema}
     >
       <Form className={css.form}>

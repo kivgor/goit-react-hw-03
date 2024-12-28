@@ -11,25 +11,26 @@ function App() {
   const [inputName, setInputName] = useState('');
   const [phonebook, setPhonebook] = useState(initPhonebook);
 
-  const handleChange = evt => {
-    setInputName(evt.target.value);
+const handleAdd = (values, actions) => {
+  const nanoid = customAlphabet('1234567890', 5);
+  const contactId = nanoid();
+
+  const newContact = {
+    id: contactId,
+    name: values.username,
+    number: values.number,
   };
 
-  const handleSubmit = (values, actions) => {
-    const nanoid = customAlphabet('1234567890', 5);
-    const contactId = nanoid();
+  setPhonebook(prev => [...prev, newContact]);
+  actions.resetForm();
+};
+  
+  const handleDelete = id => {
+    setPhonebook(prev => prev.filter(contact => contact.id !== id));
+  };
 
-    const newContact = {
-      id: contactId,
-      name: values.username,
-      number: values.number,
-    };
-
-    initPhonebook.push(newContact);
-    const newPhonebook = initPhonebook.slice();
-    setPhonebook(newPhonebook);
-    // console.log(newPhonebook);
-    actions.resetForm();
+  const handleSearch = evt => {
+    setInputName(evt.target.value);
   };
 
   const filteredList = phonebook.filter(contact =>
@@ -43,9 +44,9 @@ function App() {
   return (
     <div className={css.app}>
       <h1 className={css.title}>Phonebook</h1>
-      <ContactForm handleSubmit={handleSubmit} />
-      <SearchBox inputName={inputName} handleChange={handleChange} />
-      <ContactList filteredList={filteredList} />
+      <ContactForm handleAdd={handleAdd} />
+      <SearchBox inputName={inputName} handleSearch={handleSearch} />
+      <ContactList filteredList={filteredList} handleDelete={handleDelete} />
     </div>
   );
 }

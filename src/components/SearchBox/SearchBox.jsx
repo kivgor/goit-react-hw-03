@@ -1,7 +1,6 @@
 import css from './SearchBox.module.css'
 
-const SearchBox = ({ inputName, handleChange }) => {
-
+const SearchBox = ({ inputName, handleSearch }) => {
   return (
     <div className={css.thumb}>
       <label>
@@ -10,7 +9,7 @@ const SearchBox = ({ inputName, handleChange }) => {
           value={inputName}
           className={css.input}
           type="text"
-          onChange={handleChange}
+          onChange={handleSearch}
         />
       </label>
     </div>
