@@ -3,7 +3,7 @@ import css from './SearchBox.module.css'
 const SearchBox = ({ inputName, handleChange }) => {
 
   return (
-    <>
+    <div className={css.thumb}>
       <label>
         Find contact by name
         <input
@@ -13,7 +13,7 @@ const SearchBox = ({ inputName, handleChange }) => {
           onChange={handleChange}
         />
       </label>
-    </>
+    </div>
   );
 };
 

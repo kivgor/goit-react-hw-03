@@ -14,23 +14,22 @@ function App() {
   const handleChange = evt => {
     setInputName(evt.target.value);
   };
- 
-  const onFormSubmit = data => {
+
+  const handleSubmit = (values, actions) => {
     const nanoid = customAlphabet('1234567890', 5);
     const contactId = nanoid();
-    // console.log(data);
-    // console.log(data.username);
-    // console.log(data.number);
-    // console.log(contactId);
+
     const newContact = {
       id: contactId,
-      name: data.username,
-      number: data.number,
+      name: values.username,
+      number: values.number,
     };
-    console.log('newContact: ',newContact);
-    initPhonebook.push(newContact);    
-    setPhonebook(initPhonebook);
-    console.log(phonebook);
+
+    initPhonebook.push(newContact);
+    const newPhonebook = initPhonebook.slice();
+    setPhonebook(newPhonebook);
+    // console.log(newPhonebook);
+    actions.resetForm();
   };
 
   const filteredList = phonebook.filter(contact =>
@@ -41,14 +40,10 @@ function App() {
   //   document.title = `You update ${inputName}`;
   // }, [inputName]);
 
-  // useEffect(() => {
-  //   document.title = `You update ${phonebook}`;
-  // }, [phonebook]);
-
   return (
     <div className={css.app}>
       <h1 className={css.title}>Phonebook</h1>
-      <ContactForm onFormSubmit={onFormSubmit} />
+      <ContactForm handleSubmit={handleSubmit} />
       <SearchBox inputName={inputName} handleChange={handleChange} />
       <ContactList filteredList={filteredList} />
     </div>
