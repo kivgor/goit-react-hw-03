@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import css from './App.module.css/';
 import 'modern-normalize';
 import initPhonebook from '../initialList.json';
@@ -9,7 +9,20 @@ import { customAlphabet } from 'nanoid';
 
 function App() {
   const [inputName, setInputName] = useState('');
-  const [phonebook, setPhonebook] = useState(initPhonebook);
+  // const [phonebook, setPhonebook] = useState(initPhonebook);
+
+  const [phonebook, setPhonebook] = useState(() => {
+    const savedPhonebook = JSON.parse(localStorage.getItem('saved-phonebook'));
+
+    if (savedPhonebook !== null) {
+      return savedPhonebook;
+    }
+    return initPhonebook;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('saved-phonebook', JSON.stringify(phonebook));
+  }, [phonebook]);
 
 const handleAdd = (values, actions) => {
   const nanoid = customAlphabet('1234567890', 5);
@@ -36,6 +49,8 @@ const handleAdd = (values, actions) => {
   const filteredList = phonebook.filter(contact =>
     contact.name.toLowerCase().trim().includes(inputName.toLowerCase().trim())
   );
+
+  
 
   // useEffect(() => {
   //   document.title = `You update ${inputName}`;
